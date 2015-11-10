@@ -1,0 +1,10 @@
+---
+# tasks file for ansible-role-cuda
+#
+- name: add nvidia CUDA repo
+  template: src=nvidia.repo.j2 dest=/etc/yum.repos.d/nvidia.repo owner=root group=root mode=0644 backup=yes
+
+- name: install cuda software
+  yum: name={{ item }} state=present
+  with_items: cuda_packages | default({})
+  when: cuda_packages.0 != ""
