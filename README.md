@@ -14,7 +14,7 @@ Role Variables
 --------------
 
 <pre>
-cuda\_packages:
+cuda_packages:
  - "cuda"
 </pre>
 
