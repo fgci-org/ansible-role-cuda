@@ -8,3 +8,22 @@
   yum: name={{ item }} state=present
   with_items: cuda_packages | default({})
   when: cuda_packages.0 != ""
+  register: cuda_packages_installation
+
+- name: restart machine if cuda was installed
+  command: shutdown -r now "Ansible updates triggered"
+  async: 0
+  poll: 0
+  ignore_errors: true
+  when: cuda_packages_installation.changed and cuda_restart_node_on_install == True
+  register: cuda_restart
+
+- name: if restart, wait min 5s(+300s) for server to come back after reboot
+  local_action: wait_for host={{ inventory_hostname }}
+                port=22
+                state=started
+                delay=5
+                timeout=300
+  sudo: false
+  when: cuda_restart.changed and cuda_restart_node_on_install == True
+
