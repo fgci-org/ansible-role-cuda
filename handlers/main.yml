@@ -1,13 +1,13 @@
 ---
 
-- name: CUDA Restart server
+- name: ZZ CUDA Restart server
   command: shutdown -r now "Reboot triggered by Ansible"
   async: 0
   poll: 0
   ignore_errors: true
   when: cuda_packages_installation.changed and cuda_restart_node_on_install == True
 
-- name: CUDA Wait for server to restart
+- name: ZZ CUDA Wait for server to restart
   local_action:
     module: wait_for
       host={{ inventory_hostname }}

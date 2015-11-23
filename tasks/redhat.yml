@@ -10,5 +10,5 @@
   when: cuda_packages.0 != ""
   register: cuda_packages_installation
   notify:
-   - CUDA Restart server
-   - CUDA Wait for server to restart
+   - ZZ CUDA Restart server
+   - ZZ CUDA Wait for server to restart
