@@ -1,0 +1,43 @@
+---
+language: python
+python: "2.7"
+sudo: required
+
+
+env:
+  #matrix:
+  - OS_TYPE=centos OS_VERSION=7 ANSIBLE_VERSION=1.9.2
+
+branches:
+  except:
+  #- master
+  - travis
+
+services:
+  - docker
+
+before_install:
+  - sudo apt-get update
+  - echo 'DOCKER_OPTS="-H tcp://127.0.0.1:2375 -H unix:///var/run/docker.sock -s devicemapper"' | sudo tee /etc/default/docker > /dev/null
+  - sudo service docker restart
+  - sleep 5
+  - "find $PWD"
+
+install:
+  # Install Ansible.
+  #- pip install ansible
+
+script:
+  ## Run it in a CentOS7 privileged docker
+  # This is heavily nested.
+  # First build a new docker container
+  # Install new container
+  # Inside the container compile ansible from source (because ansible 1.9.2 and systemd was not happy together)
+  # Do several ansible checks
+  - "/bin/bash tests/launch-docker.sh"
+
+
+notifications:
+  email: false
+  flowdock:
+    secure: "rotnhCdGfUBRB3g57WOSIecEn8N52SfCFnkkF9E+FC9hYUhzCQjRWB+h8YItd/w7lvgXeYB2O7PastkKTTnh4Agdr2zkkqKD3k2sDdXUM/4/+KdTswKj6UfP2BifgwzlyK/xPyIfq0P4gkdwOpYQ2I6brpTy6pnVsWFIav2YFQdRuVMf4GmJ4ZkBZnMBoxN4hwGMXo0rlY5frS9c+WeqQQciTdiuDELLh6uoBPfxpw9FXUpBn+coBgZxMTDTiuF7w7c/vTCCt7jnv4um/UMA/PAWI8JBoN84MgKCaRnv3DQT3wIKc+wHZRLwCC6zkzbD+1GR/BohN1szoHejWVohqU9cUIM9KTA/ESij1Khcw6GnIMpB7ukT5T+d1libd9txHtC39JBwbMR2pztcvvR+JAPYzS4kANP7uekxIR7bL9I1VYY+sBSgIY9/KV2NEubu3kcPZS4ZiIBZdv8fKaV+kxewxCyRfQxi5C6EaKRpSP46O9xjTiBtkpY9oyszWsS8g75VGPgzzCcF/vSc3Um02Jz4noC7MyMl5fS3O0UHrV+rEj0rb+QY6D2DYQ4Ct/WmcuS70hsQU6CAa8IKpTR5aKxhJsEOafX6P2SoRCdelKvrTxtWJ7gXBkYRuRKOKybF7+YTAXBMvPjhQg0S4EMzDDAmH6CXAtT3opj2S6rlIUs="
