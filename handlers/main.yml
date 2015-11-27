@@ -8,7 +8,7 @@
   when: cuda_packages_installation.changed and cuda_restart_node_on_install == True
 
 - name: ZZ CUDA Wait for server to restart
-  module: wait_for
+  wait_for:
      host={{ inventory_hostname }}
      port=22
      delay=5
