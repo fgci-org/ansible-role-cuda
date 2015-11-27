@@ -9,10 +9,6 @@
   with_items: cuda_packages | default({})
   when: cuda_packages.0 != ""
   register: cuda_packages_installation
-#  notify:
-#   - ZZ CUDA Restart server
-#   - ZZ CUDA Wait for server to restart
-#
-#
-#   TODO: https://github.com/CSC-IT-Center-for-Science/ansible-role-cuda/issues/1
-#   This does not work when there is a bastion host between the GPU node and the ansible client.
+  notify:
+   - ZZ CUDA Restart server
+   - ZZ CUDA Wait for server to restart
