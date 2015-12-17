@@ -67,7 +67,7 @@ rm -Rf ansible
 function install_os_deps() {
 echo "TEST: installing os deps"
 
-yum -y install epel-release sudo ansible tree git ||(echo "Could not install some os deps" && exit 2 )
+yum -y install epel-release sudo ansible tree git which file less||(echo "Could not install some os deps" && exit 2 )
 
 }
 
