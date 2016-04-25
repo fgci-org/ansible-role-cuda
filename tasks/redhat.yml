@@ -6,7 +6,7 @@
 
 - name: install cuda software - this is slow - restart if cuda_restart_node_on_install is True
   yum: name={{ item }} state=present
-  with_items: cuda_packages | default({})
+  with_items: "{{ cuda_packages | default({}) }}"
   when: cuda_packages.0 != ""
   register: cuda_packages_installation
   notify:
