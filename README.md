@@ -15,11 +15,16 @@ Role Variables
 --------------
 
 <pre>
+gpu: True
 cuda_packages:
  - "cuda"
 </pre>
 
-This list can be updated to include more packages that are installed after nvidia cuda repo is installed.
+- gpu: True is needed. Without it this role does nothing.
+- cuda_packages: List that can be updated to include more packages that are installed after nvidia cuda repo is installed.
+- cuda_init: Installs a bash script that is executed via rc.local on boot
+
+
 
 
 Dependencies

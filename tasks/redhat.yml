@@ -12,3 +12,18 @@
   notify:
    - ZZ CUDA Restart server
    - ZZ CUDA Wait for server to restart
+
+- name: template in cuda_init.sh used during boot
+  template: src=cuda_init.sh.j2 
+            dest=/usr/local/bin/cuda_init.sh 
+            owner=root group=root mode=0755 
+            backup=no
+  when: cuda_init
+
+- name: add the cuda_init.sh script to rc.local
+  lineinfile: 
+      dest=/etc/rc.local 
+      insertafter=EOF 
+      regexp="^/bin/bash /usr/local/bin/cuda_init.sh$"
+      line="/bin/bash /usr/local/bin/cuda_init.sh" 
+  when: cuda_init
