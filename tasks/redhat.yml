@@ -23,9 +23,9 @@
 - name: add the cuda_init.sh script to rc.local
   lineinfile: 
       dest=/etc/rc.local 
-      insertafter=EOF 
+      insertafter="^touch /var/lock/subsys/local" 
       regexp="^/bin/bash /usr/local/bin/cuda_init.sh$"
-      line="/bin/bash /usr/local/bin/cuda_init.sh" 
+      line="/bin/bash /usr/local/bin/cuda_init.sh"
   when: cuda_init
 
 # This is here because if we in the same playbook try to start slurmd without having run the cuda_init.sh script then slurmd doesn't start and the play fails.
