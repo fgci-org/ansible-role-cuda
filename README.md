@@ -23,6 +23,7 @@ cuda_packages:
 - gpu: True is needed. Without it this role does nothing.
 - cuda_packages: List that can be updated to include more packages that are installed after nvidia cuda repo is installed.
 - cuda_init: Installs a bash script that is executed via rc.local on boot
+- cuda_gpu_name0: "/dev/nvidia0" # set this to the device ansible looks for. If it does not exist then if cuda_init is True then it will run the cuda_init.sh script
 
 
 
