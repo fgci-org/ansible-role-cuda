@@ -30,6 +30,19 @@
       line="/bin/bash /usr/local/bin/cuda_init.sh"
   when: cuda_init
 
+- name: check if cuda_gpu_name0 exists
+  stat: path={{ cuda_gpu_name0 }}
+  register: reg_cuda_gpu_name0
+  always_run: True
+  when: cuda_init
+
+- debug: var=reg_cuda_gpu_name0
+  when: cuda_init
+
+- name: Initialize the GPUs if there is no /dev/nvidia0 
+  command: /bin/bash /usr/local/bin/cuda_init.sh
+  when: reg_cuda_gpu_name0.stat.exists is defined and reg_cuda_gpu_name0.stat.exists == False and cuda_init
+
 # This is here because if we in the same playbook try to start slurmd without having run the cuda_init.sh script then slurmd doesn't start and the play fails.
 - name: flush the handlers - so that the node is rebooted after CUDA is installed and that the GPUs are initialized before we start slurm
   meta: flush_handlers
