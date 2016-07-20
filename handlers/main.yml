@@ -1,4 +1,6 @@
 ---
+- name: Initialize the GPUs
+  command: /bin/bash /usr/local/bin/cuda_init.sh
 
 - name: ZZ CUDA Restart server
   command: sleep 2 && /sbin/shutdown -r now "Node software upgrade reboot"

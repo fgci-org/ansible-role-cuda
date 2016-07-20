@@ -19,6 +19,8 @@
             owner=root group=root mode=0755 
             backup=no
   when: cuda_init
+  notify:
+    - Initialize the GPUs
 
 - name: add the cuda_init.sh script to rc.local
   lineinfile: 
@@ -29,6 +31,6 @@
   when: cuda_init
 
 # This is here because if we in the same playbook try to start slurmd without having run the cuda_init.sh script then slurmd doesn't start and the play fails.
-- name: flush the handlers - so that the node is rebooted after CUDA is installed
+- name: flush the handlers - so that the node is rebooted after CUDA is installed and that the GPUs are initialized before we start slurm
   meta: flush_handlers
 
