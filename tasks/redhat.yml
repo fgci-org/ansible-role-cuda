@@ -22,13 +22,13 @@
   notify:
     - Initialize the GPUs
 
-- name: add the cuda_init.sh script to rc.local
+- name: make sure cuda_init.sh script is absent from rc.local
   lineinfile: 
       dest=/etc/rc.local 
       insertafter="^touch /var/lock/subsys/local" 
       regexp="^/bin/bash /usr/local/bin/cuda_init.sh$"
       line="/bin/bash /usr/local/bin/cuda_init.sh"
-  when: cuda_init
+      state=absent
 
 - name: check if cuda_gpu_name0 exists
   stat: path={{ cuda_gpu_name0 }}
