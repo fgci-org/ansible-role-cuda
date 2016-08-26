@@ -30,7 +30,18 @@
       line="/bin/bash /usr/local/bin/cuda_init.sh"
       state=absent
 
-- name: check if cuda_gpu_name0 exists
+- name: template in cuda_init.service systemd script
+  template: src=cuda_init.service.j2
+            dest=/etc/systemd/system/cuda_init.service
+            owner=root group=root mode=0644 
+            backup=no
+  when: cuda_init
+
+- name: enable the cuda_init systemd service
+  service: name=cuda_init enabled=yes state=started 
+  when: cuda_init
+
+- name: check if cuda_gpu_name0 ( /dev/nvidia0 ) exists
   stat: path={{ cuda_gpu_name0 }}
   register: reg_cuda_gpu_name0
   always_run: True

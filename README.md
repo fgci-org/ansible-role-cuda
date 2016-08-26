@@ -6,6 +6,8 @@ Installs CUDA
 
 Tested with Tesla K80 and CentOS7
 
+Optionally also installs cuda_init which initializes the GPUs during boot.
+
 Requirements
 ------------
 
