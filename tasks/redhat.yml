@@ -47,7 +47,7 @@
   always_run: True
   when: cuda_init
 
-- debug: var=reg_cuda_gpu_name0
+- debug: var=reg_cuda_gpu_name0 verbosity=1
   when: cuda_init
 
 - name: Initialize the GPUs if there is no /dev/nvidia0 
