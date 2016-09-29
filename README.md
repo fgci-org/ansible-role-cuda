@@ -4,7 +4,7 @@ ansible-role-cuda
 
 Installs CUDA
 
-Tested with Tesla K80 and CentOS7
+Tested with Tesla K80, CentOS7, Cuda 7.5 and 8.0
 
 Optionally also installs cuda_init which initializes the GPUs during boot.
 
