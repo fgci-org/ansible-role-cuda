@@ -27,7 +27,7 @@
   notify:
     - Initialize the GPUs
 
-- name: lineinfil/make sure cuda_init.sh script is absent from rc.local
+- name: lineinfile/make sure cuda_init.sh script is absent from rc.local
   lineinfile: 
       dest=/etc/rc.local 
       insertafter="^touch /var/lock/subsys/local" 
