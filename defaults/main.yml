@@ -11,3 +11,6 @@ cuda_init: True
 cuda_init_compute_mode: 3
 cuda_init_persistence_mode: 1
 cuda_gpu_name0: "/dev/nvidia0"
+cuda_gpg_keys:
+  - "http://developer.download.nvidia.com/compute/cuda/repos/GPGKEY"
+  - "http://developer.download.nvidia.com/compute/cuda/repos/rhel7/x86_64/7fa2af80.pub"
