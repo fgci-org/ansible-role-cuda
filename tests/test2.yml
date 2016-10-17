@@ -1,8 +1,0 @@
----
-
- - hosts: localhost
-   remote_user: root
-   vars:
-     - gpu: True
-   roles:
-     - ansible-role-cuda
