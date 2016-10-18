@@ -8,4 +8,4 @@
     - gpu: True
     - cuda_restart_node_on_install: False
     - cuda_init: True
-    - cuda_init_service_state: False
+    - cuda_init_restart_service: False
