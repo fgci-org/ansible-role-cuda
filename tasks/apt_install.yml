@@ -17,3 +17,17 @@
     name: "{{ item }}"
     state: present
   with_items: "{{ cuda_packages }}"
+
+- name: Determine what version of CUDA is installed
+  shell: "dpkg-query --showformat='${Version}' --show cuda | cut -d. -f1-2"
+  register: __cuda_dpkg_query
+  changed_when: false
+
+- set_fact: "__cuda_version={{ __cuda_dpkg_query.stdout_lines[0] }}"
+
+- name: Add CUDA paths to user environments
+  template:
+    src: cuda.sh.j2
+    dest: /etc/profile.d/cuda.sh
+    backup: yes
+    mode: 0755
