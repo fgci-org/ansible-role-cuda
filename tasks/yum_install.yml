@@ -1,13 +1,26 @@
 ---
 # tasks file for ansible-role-cuda
-#
-- name: template in nvidia CUDA repo file
-  template: src=nvidia.repo.j2 dest=/etc/yum.repos.d/nvidia.repo owner=root group=root mode=0644 backup=yes
+- name: Upload packaging key for CUDA repositories
+  copy:
+    src: cuda_packaging_key.asc
+    dest: "{{ cuda_rpm_key_path }}"
+    mode: 0644
 
-- name: rpm_key rpm_key nvidia CUDA repo gpg keys
-  rpm_key: state=present key={{ item }}
-  with_items: "{{ cuda_gpg_keys }}"
-  when: cuda_gpg_keys.0 != ""
+- name: Trust packaging key for CUDA repositories
+  rpm_key:
+    key: "{{ cuda_rpm_key_path }}"
+    id: "{{ cuda_packaging_key_id }}"
+    state: present
+
+- name: Configure CUDA repository for yum-based systems
+  yum_repository:
+    name: cuda
+    description: Official Nvidia CUDA repository
+    file: nvidia
+    baseurl: "{{ cuda_repo_url }}/{{ cuda_repo_subfolder }}/x86_64/"
+    gpgkey: "{{ cuda_rpm_key_path }}"
+    gpgcheck: yes
+    enabled: yes
 
 - name: install cuda software - this is slow - restart if cuda_restart_node_on_install is True
   package: name={{ item }} state=present
