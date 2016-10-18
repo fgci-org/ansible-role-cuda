@@ -1,5 +1,22 @@
 ---
 # tasks file for ansible-role-cuda
-#
-  - include: redhat.yml
-    when: ansible_os_family == "RedHat" and gpu == True
+- name: "Gather OS specific variables"
+  include_vars: "{{ item }}"
+  with_first_found:
+    - "{{ ansible_distribution|lower }}-{{ ansible_distribution_version }}.yml"
+    - "{{ ansible_distribution|lower }}-{{ ansible_distribution_major_version }}.yml"
+    - "{{ ansible_distribution|lower }}.yml"
+    - "{{ ansible_os_family|lower }}.yml"
+
+- include: yum_install.yml
+  when: ansible_pkg_mgr == 'yum' and gpu == True
+
+- include: apt_install.yml
+  when: ansible_pkg_mgr == 'apt' and gpu == True
+
+- name: Template CUDA paths to user environments
+  template:
+    src: cuda.sh.j2
+    dest: /etc/profile.d/cuda.sh
+    mode: 0755
+  when: cuda_bash_profile
