@@ -6,7 +6,7 @@
 
 - name: Restart cuda_init service
   service: name=cuda_init state=restarted
-  when: cuda_init and cuda_init_restart_service
+  when: cuda_init and cuda_init_restart_service and ansible_service_mgr == "systemd"
 
 - name: ZZ CUDA Restart server
   command: sleep 2 && /sbin/shutdown -r now "Node software upgrade reboot"
