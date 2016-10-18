@@ -13,3 +13,9 @@
 
 - include: apt_install.yml
   when: ansible_pkg_mgr == 'apt' and gpu == True
+
+- name: Add CUDA paths to user environments
+  copy:
+    src: cuda.sh
+    dest: /etc/profile.d/cuda.sh
+    mode: 0755
