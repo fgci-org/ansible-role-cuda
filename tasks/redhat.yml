@@ -40,10 +40,11 @@
             dest=/etc/systemd/system/cuda_init.service
             owner=root group=root mode=0644 
             backup=no
+  notify: Restart cuda_init service
   when: cuda_init
 
 - name: enable the cuda_init systemd service
-  service: name=cuda_init enabled=yes state=started 
+  service: name=cuda_init enabled=yes
   when: cuda_init
 
 - name: check if cuda_gpu_name0 ( /dev/nvidia0 ) exists
