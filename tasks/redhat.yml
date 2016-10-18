@@ -40,10 +40,11 @@
             dest=/etc/systemd/system/cuda_init.service
             owner=root group=root mode=0644 
             backup=no
+  notify: Restart cuda_init service
   when: cuda_init
 
 - name: enable the cuda_init systemd service
-  service: name=cuda_init enabled=yes state=started 
+  service: name=cuda_init enabled=yes
   when: cuda_init
 
 - name: check if cuda_gpu_name0 ( /dev/nvidia0 ) exists
@@ -57,7 +58,7 @@
 
 - name: Initialize the GPUs  - run cuda_init.sh if there is no /dev/nvidia0 
   command: /bin/bash /usr/local/bin/cuda_init.sh
-  when: reg_cuda_gpu_name0.stat.exists is defined and reg_cuda_gpu_name0.stat.exists == False and cuda_init
+  when: reg_cuda_gpu_name0.stat.exists is defined and reg_cuda_gpu_name0.stat.exists == False and cuda_init and cuda_init_restart_service
 
 # This is here because if we in the same playbook try to start slurmd without having run the cuda_init.sh script then slurmd doesn't start and the play fails.
 - name: flush the handlers - so that the node is rebooted after CUDA is installed and that the GPUs are initialized before we start slurm
