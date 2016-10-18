@@ -15,3 +15,10 @@ cuda_gpu_name0: "/dev/nvidia0"
 cuda_gpg_keys:
   - "http://developer.download.nvidia.com/compute/cuda/repos/GPGKEY"
   - "http://developer.download.nvidia.com/compute/cuda/repos/rhel7/x86_64/7fa2af80.pub"
+#
+cuda_bash_profile: True
+cuda_bash_path: "/usr/local/cuda/bin:$PATH"
+cuda_bash_ld_lib_path: "/usr/local/cuda/lib64:$LD_LIBRARY_PATH"
+cuda_bash_cuda_root: "/usr/local/cuda"
+cuda_bash_cuda_inc_dir: "/usr/local/cuda/bin:$CUDA_INC_DIR"
+cuda_bash_cpath: "/usr/local/cuda/include:$CPATH"
