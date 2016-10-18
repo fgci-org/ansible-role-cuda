@@ -9,7 +9,7 @@
 - name: Configure CUDA repository for apt-based systems
   apt_repository:
     repo: "deb {{ cuda_repo_url }}/{{ cuda_repo_subfolder }}/x86_64 /"
-    filename: cuda
+    filename: nvidia
     state: present
 
 - name: Install CUDA and related packages
