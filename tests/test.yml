@@ -7,3 +7,4 @@
   vars:
     - gpu: True
     - cuda_restart_node_on_install: False
+    - cuda_init: False
