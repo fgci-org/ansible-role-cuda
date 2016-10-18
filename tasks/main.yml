@@ -8,8 +8,8 @@
     - "{{ ansible_distribution|lower }}.yml"
     - "{{ ansible_os_family|lower }}.yml"
 
-- include: rpm_install.yml
-  when: ansible_pkg_mgr == 'rpm' and gpu == True
+- include: yum_install.yml
+  when: ansible_pkg_mgr == 'yum' and gpu == True
 
 - include: apt_install.yml
   when: ansible_pkg_mgr == 'apt' and gpu == True
