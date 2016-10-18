@@ -30,6 +30,7 @@ before_cache:
 env:
   - LXC_NAME=test-ubuntu1604 LXC_DISTRO=ubuntu LXC_RELEASE=xenial
   - LXC_NAME=test-centos7 LXC_DISTRO=centos LXC_RELEASE=7
+  - LXC_NAME=test-centos6 LXC_DISTRO=centos LXC_RELEASE=6
   - LXC_NAME=test-ubuntu1404 LXC_DISTRO=ubuntu LXC_RELEASE=trusty
 #  - LXC_NAME=test-ubuntu1504 LXC_DISTRO=ubuntu LXC_RELEASE=vivid
 #  - LXC_NAME=test-ubuntu1410 LXC_DISTRO=ubuntu LXC_RELEASE=utopic
