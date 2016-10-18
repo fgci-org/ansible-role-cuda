@@ -1,4 +1,5 @@
 ---
+# handlers file for ansible-role-cuda
 - name: Initialize the GPUs
   command: /bin/bash /usr/local/bin/cuda_init.sh
   when: cuda_init and cuda_init_restart_service
