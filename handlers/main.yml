@@ -39,3 +39,5 @@
   when:
     - cuda_restart_node_on_install
     - (running_as_ansible_pull is not defined or running_as_ansible_pull == False)
+
+# vim:ft=ansible:

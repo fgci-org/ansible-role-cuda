@@ -11,3 +11,5 @@
     repo: "deb {{ cuda_repo_url }}/{{ cuda_repo_subfolder }}/x86_64 /"
     filename: nvidia
     state: present
+
+# vim:ft=ansible:

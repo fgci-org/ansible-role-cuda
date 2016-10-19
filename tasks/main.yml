@@ -42,3 +42,5 @@
     meta: flush_handlers
 
   when: gpu == True
+
+# vim:ft=ansible:

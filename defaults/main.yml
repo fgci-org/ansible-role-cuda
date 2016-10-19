@@ -19,3 +19,5 @@ cuda_bash_ld_lib_path: "/usr/local/cuda/lib64:$LD_LIBRARY_PATH"
 cuda_bash_cuda_root: "/usr/local/cuda"
 cuda_bash_cuda_inc_dir: "/usr/local/cuda/bin:$CUDA_INC_DIR"
 cuda_bash_cpath: "/usr/local/cuda/include:$CPATH"
+
+# vim:ft=ansible:

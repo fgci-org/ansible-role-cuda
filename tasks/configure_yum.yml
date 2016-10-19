@@ -24,3 +24,5 @@
     gpgkey: "file://{{ cuda_rpm_key_path }}"
     gpgcheck: yes
     enabled: yes
+
+# vim:ft=ansible:

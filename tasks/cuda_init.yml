@@ -47,3 +47,5 @@
     - reg_cuda_gpu_name0.stat.exists is defined
     - reg_cuda_gpu_name0.stat.exists == False
     - cuda_init_restart_service
+
+# vim:ft=ansible:
