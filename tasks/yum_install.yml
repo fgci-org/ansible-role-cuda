@@ -9,8 +9,12 @@
 - name: Trust packaging key for CUDA repositories
   rpm_key:
     key: "{{ cuda_rpm_key_path }}"
-    id: "{{ cuda_packaging_key_id }}"
     state: present
+
+- name: Remove trust for old CUDA packaging key
+  rpm_key:
+    key: 5C37D3BE
+    state: absent
 
 - name: Configure CUDA repository for yum-based systems
   yum_repository:
@@ -31,4 +35,3 @@
   notify:
    - ZZ CUDA Restart server
    - ZZ CUDA Wait for server to restart
-
