@@ -1,26 +1,25 @@
 ---
 # tasks file for ansible-role-cuda
-- name: Upload packaging key for CUDA repositories
+- name: Upload packaging key for Nvidia repositories
   copy:
     src: cuda_packaging_key.asc
     dest: "{{ cuda_rpm_key_path }}"
     mode: 0644
 
-- name: Trust packaging key for CUDA repositories
+- name: Trust packaging key for Nvidia repositories (rpm)
   rpm_key:
     key: "{{ cuda_rpm_key_path }}"
     state: present
 
-- name: Remove trust for old CUDA packaging key
+- name: Remove trust for old Nvidia packaging key
   rpm_key:
     key: 5C37D3BE
     state: absent
 
-- name: Configure CUDA repository for yum-based systems
+- name: Configure Nvidia repository (yum)
   yum_repository:
-    name: cuda
-    description: Official Nvidia CUDA repository
-    file: nvidia
+    name: nvidia
+    description: Official Nvidia repository
     baseurl: "{{ cuda_repo_url }}/{{ cuda_repo_subfolder }}/x86_64/"
     gpgkey: "file://{{ cuda_rpm_key_path }}"
     gpgcheck: yes
