@@ -2,7 +2,7 @@
 # tasks file for ansible-role-cuda
 - name: Upload packaging key for Nvidia repositories
   copy:
-    src: cuda_packaging_key.asc
+    src: nvidia_packaging_key.asc
     dest: "{{ cuda_rpm_key_path }}"
     mode: 0644
 

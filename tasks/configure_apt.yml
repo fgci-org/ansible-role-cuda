@@ -2,7 +2,7 @@
 # tasks file for ansible-role-cuda
 - name: Trust packaging key for Nvidia repositories (apt)
   apt_key:
-    data: "{{ lookup('file', 'files/cuda_packaging_key.asc') }}"
+    data: "{{ lookup('file', 'files/nvidia_packaging_key.asc') }}"
     id: "{{ cuda_packaging_key_id }}"
     state: present
 
