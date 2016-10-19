@@ -80,7 +80,7 @@ galaxy_info:
   #  - 9.2
   - name: Ubuntu
     versions:
-    - all
+  #  - all
   #  - lucid
   #  - maverick
   #  - natty
@@ -89,9 +89,10 @@ galaxy_info:
   #  - quantal
   #  - raring
   #  - saucy
-  #  - trusty
+    - trusty
   #  - utopic
   #  - vivid
+    - xenial
   #- name: SLES
   #  versions:
   #  - all
