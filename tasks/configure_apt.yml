@@ -11,9 +11,3 @@
     repo: "deb {{ cuda_repo_url }}/{{ cuda_repo_subfolder }}/x86_64 /"
     filename: nvidia
     state: present
-
-- name: Install CUDA and related packages
-  package:
-    name: "{{ item }}"
-    state: present
-  with_items: "{{ cuda_packages }}"

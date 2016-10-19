@@ -26,12 +26,3 @@
     gpgcheck: yes
     enabled: yes
 
-- name: install cuda software - this is slow - restart if cuda_restart_node_on_install is True
-  package:
-    name: "{{ item }}"
-    state: present
-  with_items: "{{ cuda_packages | default({}) }}"
-  register: cuda_packages_installation
-  notify:
-   - ZZ CUDA Restart server
-   - ZZ CUDA Wait for server to restart

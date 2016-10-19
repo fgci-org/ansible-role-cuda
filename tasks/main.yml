@@ -8,27 +8,37 @@
     - "{{ ansible_distribution|lower }}.yml"
     - "{{ ansible_os_family|lower }}.yml"
 
-- include: yum_install.yml
-  when:
-    - ansible_pkg_mgr == 'yum'
-    - gpu == True
+- block:
+  - include: configure_yum.yml
+    when: ansible_pkg_mgr == 'yum'
 
-- include: apt_install.yml
-  when:
-    - ansible_pkg_mgr == 'apt'
-    - gpu == True
+  - include: configure_apt.yml
+    when: ansible_pkg_mgr == 'apt'
 
-- include: cuda_init.yml
-  when: cuda_init == True
+  - name: Install CUDA and related packages (1.5-2GB download, also restarts if cuda_restart_node_on_install is set to True)
+    package:
+      name: "{{ item }}"
+      state: present
+    with_items: "{{ cuda_packages }}"
+    register: cuda_packages_installation
+    notify:
+     - ZZ CUDA Restart server
+     - ZZ CUDA Wait for server to restart
 
-- name: Template CUDA paths to user environments
-  template:
-    src: cuda.sh.j2
-    dest: /etc/profile.d/cuda.sh
-    mode: 0755
-  when: cuda_bash_profile
+  - name: Template CUDA paths to user environments
+    template:
+      src: cuda.sh.j2
+      dest: /etc/profile.d/cuda.sh
+      mode: 0755
+    when: cuda_bash_profile
 
-# This is here because if we in the same playbook try to start slurmd without
-# having run the cuda_init.sh script then slurmd doesn't start and the play fails.
-- name: flush the handlers - so that the node is rebooted after CUDA is installed and that the GPUs are initialized before we start slurm
-  meta: flush_handlers
+  - include: cuda_init.yml
+    when: cuda_init == True
+
+  # This is here because if we in the same playbook try to start slurmd without
+  # having run the cuda_init.sh script then slurmd doesn't start and the play fails.
+  # todo: reload nvidia modules/etc instead of restart
+  - name: flush the handlers - so that the node is rebooted after CUDA is installed and that the GPUs are initialized before we start slurm
+    meta: flush_handlers
+
+  when: gpu == True
