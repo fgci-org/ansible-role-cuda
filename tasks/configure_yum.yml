@@ -22,7 +22,6 @@
     description: Official Nvidia CUDA repository
     file: nvidia
     baseurl: "{{ cuda_repo_url }}/{{ cuda_repo_subfolder }}/x86_64/"
-    gpgkey: "{{ cuda_rpm_key_path }}"
+    gpgkey: "file://{{ cuda_rpm_key_path }}"
     gpgcheck: yes
     enabled: yes
-
