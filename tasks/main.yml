@@ -9,10 +9,17 @@
     - "{{ ansible_os_family|lower }}.yml"
 
 - include: yum_install.yml
-  when: ansible_pkg_mgr == 'yum' and gpu == True
+  when:
+    - ansible_pkg_mgr == 'yum'
+    - gpu == True
 
 - include: apt_install.yml
-  when: ansible_pkg_mgr == 'apt' and gpu == True
+  when:
+    - ansible_pkg_mgr == 'apt'
+    - gpu == True
+
+- include: cuda_init.yml
+  when: cuda_init == True
 
 - name: Template CUDA paths to user environments
   template:
@@ -20,3 +27,8 @@
     dest: /etc/profile.d/cuda.sh
     mode: 0755
   when: cuda_bash_profile
+
+# This is here because if we in the same playbook try to start slurmd without
+# having run the cuda_init.sh script then slurmd doesn't start and the play fails.
+- name: flush the handlers - so that the node is rebooted after CUDA is installed and that the GPUs are initialized before we start slurm
+  meta: flush_handlers
