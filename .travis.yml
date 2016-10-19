@@ -65,7 +65,7 @@ script:
   - ansible-playbook tests/test.yml -i tests/inventory --syntax-check
 
   # Perform a test run with the playbook
-  - ansible-playbook tests/test.yml -i tests/inventory
+  - travis_wait ansible-playbook tests/test.yml -i tests/inventory
 
   # Perform a another test run with the playbook to check for idempotency
   - 'unbuffer ansible-playbook tests/test.yml -i tests/inventory >/tmp/idempotency.log 2>&1'

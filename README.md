@@ -1,55 +1,50 @@
 [![Build Status](https://travis-ci.org/CSC-IT-Center-for-Science/ansible-role-cuda.svg)](https://travis-ci.org/CSC-IT-Center-for-Science/ansible-role-cuda)
+[![Galaxy Role](https://img.shields.io/badge/ansible--galaxy-cuda-blue.svg)](https://galaxy.ansible.com/CSC-IT-Center-for-Science/cuda/)
+
 ansible-role-cuda
 =========
 
 Installs CUDA
 
-Tested with Tesla K80, CentOS7, Cuda 7.5 and 8.0
+Tested with Tesla K80, Tesla M40, CentOS7, Ubuntu 16.04, Cuda 7.5 and 8.0
 
 Optionally also installs cuda_init which initializes the GPUs during boot.
 
 Requirements
 ------------
 
-http://developer.download.nvidia.com/compute/cuda/repos/
+Outbound access to http://developer.download.nvidia.com/compute/cuda/repos/
 
 Role Variables
 --------------
 
-<pre>
-gpu: True
-cuda_packages:
- - "cuda"
-</pre>
+    gpu: False
+    cuda_packages:
+     - cuda
+    cuda_restart_node_on_install: True
+    cuda_init: True
+    cuda_bash_profile: True
 
 - gpu: True is needed. Without it this role does nothing.
-- cuda_packages: List that can be updated to include more packages that are installed after nvidia cuda repo is installed.
-- cuda_init: Installs a bash script that is executed via rc.local on boot
+- cuda_packages: List that can be updated to include more packages that are installed after nvidia cuda repo is installed, or to a specific cuda package (e.g. `cuda-7-5`)
+- cuda_init: Installs a bash script that is executed via systemd
 - cuda_gpu_name0: "/dev/nvidia0" # set this to the device ansible looks for. If it does not exist then if cuda_init is True then it will run the cuda_init.sh script
-
-
-
-
-Dependencies
-------------
+- cuda_restart_node_on_install: restarts the system when packages are installed or updated
 
 
 Example Playbook
 ----------------
 
-Including an example of how to use your role (for instance, with variables passed in as parameters) is always nice for users too:
+`playbook.yml`:
 
-    - hosts: servers
+    - hosts: deep_learning
       roles:
-         - { role: ansible-role-cuda }
+        - CSC-IT-Center-for-Science.cuda
 
-In the hosts file have
+`inventory`:
 
-<pre>
-[servers]
-host1.example.com gpu=True
-</pre>
-
+    [deep_learning]
+    host1.example gpu=True
 
 License
 -------
