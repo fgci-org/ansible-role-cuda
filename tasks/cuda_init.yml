@@ -35,7 +35,7 @@
   stat:
     path: "{{ cuda_gpu_name0 }}"
   register: reg_cuda_gpu_name0
-  always_run: True
+  check_mode: no
 
 - debug:
     var: reg_cuda_gpu_name0
