@@ -16,6 +16,7 @@ addons:
     - lxc-templates
     - yum
     - expect-dev
+    - debootstrap
 
 cache:
   directories:
