@@ -17,6 +17,7 @@ env:
   - LXC_DISTRO=ubuntu LXC_RELEASE=xenial
   - LXC_DISTRO=ubuntu LXC_RELEASE=trusty
   - LXC_DISTRO=centos LXC_RELEASE=7
+  - LXC_DISTRO=centos LXC_RELEASE=6
 
 install:
   - sudo tar xf $HOME/lxc/cache.tar -C / || true
