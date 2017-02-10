@@ -1,1 +1,5 @@
-test.lxc
+[cuda]
+test01.lxc
+
+[cuda:vars]
+ansible_ssh_user=root
