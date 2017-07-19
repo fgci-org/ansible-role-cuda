@@ -1,12 +1,12 @@
-[![Build Status](https://travis-ci.org/CSC-IT-Center-for-Science/ansible-role-cuda.svg)](https://travis-ci.org/CSC-IT-Center-for-Science/ansible-role-cuda)
-[![Galaxy Role](https://img.shields.io/badge/ansible--galaxy-cuda-blue.svg)](https://galaxy.ansible.com/CSC-IT-Center-for-Science/cuda/)
+[![Build Status](https://travis-ci.org/CSCfi/ansible-role-cuda.svg)](https://travis-ci.org/CSCfi/ansible-role-cuda)
+[![Galaxy Role](https://img.shields.io/badge/ansible--galaxy-cuda-blue.svg)](https://galaxy.ansible.com/CSCfi/cuda/)
 
 ansible-role-cuda
 =========
 
 Installs CUDA
 
-Tested with Tesla K80, Tesla M40, CentOS7, Ubuntu 16.04, Cuda 7.5 and 8.0
+Tested with Tesla P100, K80, Tesla M40, CentOS7, Ubuntu 16.04, Cuda 7.5 and 8.0
 
 Optionally also installs cuda_init which initializes the GPUs during boot.
 
@@ -45,6 +45,14 @@ Example Playbook
 
     [deep_learning]
     host1.example gpu=True
+
+Example Errors
+--------------
+
+This error means you are not using a supported OS (like Ubuntu 17.04 which does not have a cuda URL)
+<pre>
+   "msg": "No file was found when using with_first_found. Use the 'skip: true' option to allow this task to be skipped if no files are found"
+</pre>
 
 License
 -------
