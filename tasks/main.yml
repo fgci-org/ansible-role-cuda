@@ -9,10 +9,10 @@
     - "{{ ansible_os_family|lower }}.yml"
 
 - block:
-  - include: configure_yum.yml
+  - include_tasks: configure_yum.yml
     when: ansible_pkg_mgr == 'yum'
 
-  - include: configure_apt.yml
+  - include_tasks: configure_apt.yml
     when: ansible_pkg_mgr == 'apt'
 
   - name: Install CUDA and related packages (1.5-2GB download, also restarts if cuda_restart_node_on_install is set to True)
@@ -32,7 +32,7 @@
       mode: 0755
     when: cuda_bash_profile
 
-  - include: cuda_init.yml
+  - include_tasks: cuda_init.yml
     when: cuda_init == True
 
   # This is here because if we in the same playbook try to start slurmd without
