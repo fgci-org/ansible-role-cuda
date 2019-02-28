@@ -5,11 +5,6 @@
     - { name: lae.travis-lxc }
   vars:
     host_quantity: 1
-    test_profiles:
-      - profile: centos-7
-      - profile: centos-6
-      - profile: ubuntu-xenial
-      - profile: ubuntu-trusty
 
 # Run the following within the containers in the inventory
 - hosts: all
