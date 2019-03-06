@@ -23,13 +23,21 @@
   notify:
     - reload systemd unit files
     - Restart cuda_init service
-  when: ansible_service_mgr == "systemd"
+  when: ansible_service_mgr == "systemd" or ansible_connection == 'chroot'
 
 - name: enable the cuda_init systemd service
   service:
     name: cuda_init
     enabled: yes
   when: ansible_service_mgr == "systemd"
+
+# Due to ansible bug 21026, cannot use service module on RHEL 7
+- name: enable the cuda_init systemd service in chroots
+  command: systemctl enable cuda_init
+  when:
+    - ansible_connection == 'chroot'
+    - ansible_os_family == 'RedHat'
+    - ansible_distribution_major_version|int >= 7
 
 - name: check if cuda_gpu_name0 ( /dev/nvidia0 ) exists
   stat:
