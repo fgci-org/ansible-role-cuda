@@ -7,8 +7,8 @@
 - name: Initialize the GPUs
   command: /bin/bash /usr/local/bin/cuda_init.sh
   when:
-    - cuda_init
-    - cuda_init_restart_service
+    - cuda_init|bool
+    - cuda_init_restart_service|bool
     - ansible_connection != 'chroot'
 
 - name: Restart cuda_init service
@@ -16,8 +16,8 @@
     name: cuda_init
     state: restarted
   when:
-    - cuda_init
-    - cuda_init_restart_service
+    - cuda_init|bool
+    - cuda_init_restart_service|bool
     - ansible_service_mgr == "systemd"
 
 - name: ZZ CUDA Restart server
@@ -27,7 +27,7 @@
   ignore_errors: true
   when:
     - cuda_packages_installation.changed
-    - cuda_restart_node_on_install
+    - cuda_restart_node_on_install|bool
     - ansible_connection != 'chroot'
 
 # define the variable running_as_ansible_pull in the ansible-pull playbook, like local.yml 
@@ -40,7 +40,7 @@
   connection: local
   become: false
   when:
-    - cuda_restart_node_on_install
+    - cuda_restart_node_on_install|bool
     - (running_as_ansible_pull is not defined or running_as_ansible_pull == False)
     - ansible_connection != 'chroot'
 
