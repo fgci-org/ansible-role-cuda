@@ -30,7 +30,7 @@
       src: cuda.sh.j2
       dest: /etc/profile.d/cuda.sh
       mode: 0755
-    when: cuda_bash_profile
+    when: cuda_bash_profile|bool
 
   - include_tasks: cuda_init.yml
     when: cuda_init == True
