@@ -1,0 +1,14 @@
+- hosts: all
+  become: true
+  any_errors_fatal: true
+
+- name: Add epel repository
+  yum_repository:
+    name: epel
+    description: EPEL YUM repo
+    baseurl: https://download.fedoraproject.org/pub/epel/$releasever/$basearch/
+
+- name: Import EPEL GPG key.
+  rpm_key:
+    key: "/etc/pki/rpm-gpg/RPM-GPG-KEY-EPEL-7"
+    state: present
