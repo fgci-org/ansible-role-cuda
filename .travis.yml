@@ -29,6 +29,7 @@ install:
 script:
   # Validates your deployment playbook's syntax, which should contain your role
   - ansible-playbook -i tests/inventory tests/deploy.yml --syntax-check
+
   # Runs the deployment playbook
   - ansible-playbook -i tests/inventory -v tests/deploy.yml
 
