@@ -5,6 +5,7 @@
     - { name: lae.travis-lxc }
   vars:
     test_profiles:
+      - profile: ubuntu-xenial
       - profile: centos-7
       
 
