@@ -7,7 +7,6 @@
     test_profiles:
       - profile: ubuntu-xenial
       - profile: centos-7
-      - profile: ubuntu-bionic
       
 
 # Run the following within the containers in the inventory
