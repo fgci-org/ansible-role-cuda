@@ -4,7 +4,7 @@
   tasks:
     - name: Upload packaging key for EPEL 7
       copy:
-        src: RPM-GPG-KEY-EPEL-7
+        src: "../files/RPM-GPG-KEY-EPEL-7
         dest: "/etc/pki/rpm-gpg/RPM-GPG-KEY-EPEL-7"
         mode: 0644
 
