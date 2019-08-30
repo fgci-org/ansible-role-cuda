@@ -1,5 +1,5 @@
 [cuda]
-test01.lxc
+basic-profile-01
 
 [cuda:vars]
 ansible_ssh_user=root
