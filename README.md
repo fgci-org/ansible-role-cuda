@@ -49,7 +49,7 @@ Example Playbook
 Example Errors
 --------------
 
-This error means you are not using a supported OS (like Ubuntu 17.04 which does not have a cuda URL)
+This error means you are not using a supported OS (like Ubuntu 18.10 which does not have a cuda URL)
 <pre>
    "msg": "No file was found when using with_first_found. Use the 'skip: true' option to allow this task to be skipped if no files are found"
 </pre>
