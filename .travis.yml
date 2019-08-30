@@ -1,7 +1,7 @@
 ---
 language: python
 sudo: required
-dist: xenial
+dist: trusty
 
 matrix:
   fast_finish: true
