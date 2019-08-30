@@ -1,5 +1,5 @@
 [cuda]
-basic-profile-01
+centos-7-01
 
 [cuda:vars]
 ansible_ssh_user=root

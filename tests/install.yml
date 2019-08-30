@@ -5,7 +5,7 @@
     - { name: lae.travis-lxc }
   vars:
     test_profiles:
-      - profile: basic-profile
+      - profile: centos-7
       
 
 # Run the following within the containers in the inventory
