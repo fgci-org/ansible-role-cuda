@@ -39,6 +39,24 @@
     - ansible_os_family == 'RedHat'
     - ansible_distribution_major_version|int >= 7
 
+- name: Enable nvidia-persistenced systemd service
+  service:
+    name: nvidia-persistenced
+    enabled: yes
+    state: started
+  when:
+    - ansible_service_mgr == "systemd"
+    - cuda_init_persistence_mode | bool
+
+# Due to ansible bug 21026, cannot use service module on RHEL 7
+- name: enable the nvidia-persistenced systemd service in chroots
+  command: systemctl enable nvidia-persistenced
+  when:
+    - ansible_connection == 'chroot'
+    - ansible_os_family == 'RedHat'
+    - ansible_distribution_major_version|int >= 7
+    - cuda_init_persistence_mode | bool
+
 - name: check if cuda_gpu_name0 ( /dev/nvidia0 ) exists
   stat:
     path: "{{ cuda_gpu_name0 }}"
