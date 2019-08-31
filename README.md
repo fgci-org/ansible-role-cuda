@@ -54,10 +54,10 @@ This error means you are not using a supported OS (like Ubuntu 18.10 which does 
    "msg": "No file was found when using with_first_found. Use the 'skip: true' option to allow this task to be skipped if no files are found"
 </pre>
 
-Test in playbook
+Tests in playbook
 ----------------
 
-This one: https://github.com/lae/ansible-role-travis-lxc
+They are using this one: https://github.com/lae/ansible-role-travis-lxc
 
 License
 -------
