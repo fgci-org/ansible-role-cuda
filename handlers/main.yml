@@ -1,7 +1,8 @@
 ---
 # handlers file for ansible-role-cuda
 - name: reload systemd unit files
-  shell: systemctl daemon-reload
+  systemd:
+    daemon-reload: yes
   when: ansible_connection != 'chroot'
 
 - name: Initialize the GPUs
