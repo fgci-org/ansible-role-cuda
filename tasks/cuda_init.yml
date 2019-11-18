@@ -33,9 +33,7 @@
 
 # Due to ansible bug 21026, cannot use service module on RHEL 7
 - name: enable the cuda_init systemd service in chroots
-  systemd:
-    name: cuda_init
-    enabled: yes
+  command: systemctl enable cuda_init
   when:
     - ansible_connection == 'chroot'
     - ansible_os_family == 'RedHat'
