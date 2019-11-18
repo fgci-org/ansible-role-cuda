@@ -85,6 +85,6 @@
     - ansible_connection != 'chroot'
     - cuda_init_persistence_mode | bool
     - reg_cuda_gpu_name0.stat.exists is defined
-    - reg_cuda_gpu_name0.stat.exists == True
+    - reg_cuda_gpu_name0.stat.exists
 
 # vim:ft=ansible:
