@@ -51,7 +51,9 @@
 
 # Due to ansible bug 21026, cannot use service module on RHEL 7
 - name: enable the nvidia-persistenced systemd service in chroots
-  command: systemctl enable nvidia-persistenced
+  systemd:
+    name: nvidia-persistenced
+    enabled: yes
   when:
     - ansible_connection == 'chroot'
     - ansible_os_family == 'RedHat'
