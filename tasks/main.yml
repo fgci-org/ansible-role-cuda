@@ -15,7 +15,7 @@
   - include_tasks: configure_apt.yml
     when: ansible_pkg_mgr == 'apt'
 
-  - name: Install CUDA and related packages (1.5-2GB download, also restarts if cuda_restart_node_on_install is set to True)
+  - name: Install CUDA packages (1.5-2GB download, also restarts if cuda_restart_node_on_install is set to True)
     package:
       name: "{{ item }}"
       state: present
@@ -38,7 +38,7 @@
   # This is here because if we in the same playbook try to start slurmd without
   # having run the cuda_init.sh script then slurmd doesn't start and the play fails.
   # todo: reload nvidia modules/etc instead of restart
-  - name: flush the handlers - so that the node is rebooted after CUDA is installed and that the GPUs are initialized before we start slurm
+  - name: flush the handlers - so that GPUs are initialized before we start slurm
     meta: flush_handlers
 
   when: gpu

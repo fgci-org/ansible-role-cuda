@@ -49,7 +49,7 @@
     var: reg_cuda_gpu_name0
     verbosity: 1
 
-- name: Initialize the GPUs  - run cuda_init.sh if there is no /dev/nvidia0 
+- name: Initialize the GPUs  - run cuda_init.sh if there is no /dev/nvidia0
   command: /bin/bash /usr/local/bin/cuda_init.sh
   when:
     - reg_cuda_gpu_name0.stat.exists is defined
