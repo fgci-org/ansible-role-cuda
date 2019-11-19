@@ -33,7 +33,7 @@
     when: cuda_bash_profile|bool
 
   - include_tasks: cuda_init.yml
-    when: cuda_init == True
+    when: cuda_init
 
   # This is here because if we in the same playbook try to start slurmd without
   # having run the cuda_init.sh script then slurmd doesn't start and the play fails.
@@ -41,6 +41,6 @@
   - name: flush the handlers - so that the node is rebooted after CUDA is installed and that the GPUs are initialized before we start slurm
     meta: flush_handlers
 
-  when: gpu == True
+  when: gpu
 
 # vim:ft=ansible:

@@ -53,7 +53,7 @@
   command: /bin/bash /usr/local/bin/cuda_init.sh
   when:
     - reg_cuda_gpu_name0.stat.exists is defined
-    - reg_cuda_gpu_name0.stat.exists == False
+    - not reg_cuda_gpu_name0.stat.exists
     - cuda_init_restart_service|bool
 
 # vim:ft=ansible:
