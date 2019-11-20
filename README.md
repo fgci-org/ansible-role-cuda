@@ -26,7 +26,7 @@ Role Variables
     cuda_bash_profile: True
 
 - gpu: True is needed. Without it this role does nothing.
-- cuda_packages: List that can be updated to include more packages that are installed after nvidia cuda repo is installed, or to a specific cuda package (e.g. `cuda-7-5`)
+- cuda_packages: List that can be updated to include more packages that are installed after nvidia cuda repo is installed, or to a specific cuda version like `cuda_packages: [ "cuda=10.0.130-1" ]`
 - cuda_init: Installs a bash script that is executed via systemd
 - cuda_gpu_name0: "/dev/nvidia0" # set this to the device ansible looks for. If it does not exist then if cuda_init is True then it will run the cuda_init.sh script
 - cuda_restart_node_on_install: restarts the system when packages are installed or updated
@@ -37,9 +37,13 @@ Example Playbook
 
 `playbook.yml`:
 
-    - hosts: deep_learning
+    - name: install a cuda with a specific version
+      hosts: deep_learning
+      vars:
+        - cuda_packages:
+            - cuda=10.0.130-1
       roles:
-        - CSC-IT-Center-for-Science.cuda
+        - CSCfi.cuda
 
 `inventory`:
 
