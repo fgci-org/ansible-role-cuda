@@ -20,4 +20,6 @@ cuda_bash_cuda_root: "/usr/local/cuda"
 cuda_bash_cuda_inc_dir: "/usr/local/cuda/bin"
 cuda_bash_cpath: "/usr/local/cuda/include"
 
+cuda_enable_perf_counters: False
+
 # vim:ft=ansible:

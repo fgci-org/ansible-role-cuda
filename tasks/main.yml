@@ -35,6 +35,13 @@
   - include_tasks: cuda_init.yml
     when: cuda_init
 
+  - name: Enable performance counters for all users via modprobe
+    template:
+      src: nvidia.conf.j2
+      dest: /etc/modprobe.d/nvidia.conf
+      mode: 0644
+    when: cuda_enable_perf_counters
+
   # This is here because if we in the same playbook try to start slurmd without
   # having run the cuda_init.sh script then slurmd doesn't start and the play fails.
   # todo: reload nvidia modules/etc instead of restart
