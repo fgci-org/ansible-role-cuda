@@ -10,7 +10,7 @@
 
 - block:
   - include_tasks: configure_yum.yml
-    when: ansible_pkg_mgr == 'yum'
+    when: ansible_pkg_mgr in ['yum', 'dnf']
 
   - include_tasks: configure_apt.yml
     when: ansible_pkg_mgr == 'apt'
