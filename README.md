@@ -1,4 +1,4 @@
-[![Build Status](https://travis-ci.org/CSCfi/ansible-role-cuda.svg)](https://travis-ci.org/CSCfi/ansible-role-cuda)
+[![Build Status](https://travis-ci.org/fgci-org/ansible-role-cuda.svg)](https://travis-ci.org/fgci-org/ansible-role-cuda)
 [![Galaxy Role](https://img.shields.io/badge/ansible--galaxy-cuda-blue.svg)](https://galaxy.ansible.com/CSCfi/cuda/)
 
 ansible-role-cuda
@@ -70,4 +70,3 @@ MIT
 
 Author Information
 ------------------
-
