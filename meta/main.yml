@@ -1,8 +1,8 @@
 ---
 galaxy_info:
-  author: Johan Guldmyr
+  author: Ville Salmela
   description: Installs CUDA
-  company: CSC - IT Center for Science
+  company: FGCI organisation
   # If the issue tracker for your role is not on github, uncomment the
   # next line and provide a value
   # issue_tracker_url: http://example.com/issue/tracker
@@ -25,7 +25,6 @@ galaxy_info:
     versions:
   #  - all
   #  - 5
-    - 6
     - 7
     - 8
   #- name: GenericUNIX
