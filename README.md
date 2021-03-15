@@ -61,7 +61,7 @@ This error means you are not using a supported OS (like Ubuntu 18.10 which does 
 Tests in playbook
 ----------------
 
-They are using this one: https://github.com/lae/ansible-role-travis-lxc
+Tests are using this one: https://github.com/lae/ansible-role-travis-lxc
 
 License
 -------
