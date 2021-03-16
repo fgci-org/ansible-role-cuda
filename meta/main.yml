@@ -1,5 +1,6 @@
 ---
 galaxy_info:
+  role_name: cuda
   author: Ville Salmela
   description: Installs CUDA
   company: FGCI organisation

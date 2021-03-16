@@ -43,7 +43,7 @@ Example Playbook
         - cuda_packages:
             - cuda=10.0.130-1
       roles:
-        - fgci-org.cuda
+        - fgci.cuda
 
 `inventory`:
 
