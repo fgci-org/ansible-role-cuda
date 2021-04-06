@@ -7,6 +7,11 @@ cuda_repo_url: "http://developer.download.nvidia.com/compute/cuda/repos/"
 cuda_rpm_key_path: /etc/rpm/nvidia_packaging_key.asc
 cuda_packages:
  - cuda
+cuda_use_runfile: False
+cuda_runfile_url: "https://developer.download.nvidia.com/compute/cuda/11.2.2/local_installers/cuda_11.2.2_460.32.03_linux.run"
+cuda_runfile_driver: True
+cuda_runfile_toolkit: True
+cuda_runfile_remove: True
 cuda_restart_node_on_install: True
 cuda_init: True
 cuda_init_restart_service: True

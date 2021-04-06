@@ -1,0 +1,13 @@
+---
+# This is an example playbook to execute Ansible tests.
+
+- name: Verify
+  hosts: all
+  tasks:
+  - name: Check that CUDA has been installed
+    stat:
+      path: /usr/local/cuda-11.2
+    register: cuda_path_check
+  - name: Verify that CUDA folder exists
+    assert:
+      that: cuda_path_check.stat.exists

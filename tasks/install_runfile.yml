@@ -1,0 +1,43 @@
+---
+
+- name: "Ensure kernel headers are installed (yum)"
+  yum:
+    name: "{{ cuda_runfile_packages }}"
+    state: present
+  when: ansible_pkg_mgr in ["yum", "dnf"]
+
+- name: "Ensure kernel headers are installed (apt)"
+  yum:
+    name:
+      - linux-headers-generic
+      - build-essential
+    state: present
+  when: ansible_pkg_mgr == "apt"
+
+- name: "Disable nouveau"
+  copy:
+    src: blacklist-nouveau.conf
+    dest: /etc/modprobe.d/blacklist-nouveau.conf
+
+- name: "Register installer name"
+  set_fact:
+    cuda_runfile_sh: "{{ cuda_runfile_url | basename }}"
+
+- name: "Download runfile"
+  get_url:
+    url: "{{ cuda_runfile_url }}"
+    dest: "/tmp/{{ cuda_runfile_sh }}"
+
+- name: 'Setting runfile arguments'
+  set_fact:
+    runfile_args: "--silent {{ '--driver' if cuda_runfile_driver else '' }} {{ '--toolkit' if cuda_runfile_toolkit else '' }}"
+
+- name: "Run installer"
+  command: bash /tmp/{{ cuda_runfile_sh }} {{ runfile_args }}
+  register: cuda_install_out
+
+- name: 'Remove installer after successful install'
+  file:
+    path: /tmp/{{ cuda_runfile_sh }}
+    state: absent
+  when: cuda_install_out.rc == 0 and cuda_runfile_remove
