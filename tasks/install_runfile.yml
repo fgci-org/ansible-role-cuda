@@ -80,9 +80,9 @@
     set_fact:
       cuda_driver_runfile: "{{ cuda_driver_runfile_find.files[0].path }}"
 
-  - name: 'Print variables of interest'
+  - name: 'Print information about driver'
     debug:
-      msg: "{{ cuda_driver_runfile }} {{ cuda_driver_kernel_version }} {{ cuda_driver_kernel_running.stdout }}"
+      msg: "Building driver {{ cuda_driver_runfile }} for kernel {{ cuda_driver_kernel_version }}"
 
   - name: 'Install driver'
     command: bash {{ cuda_driver_runfile }} --silent --kernel-name={{ cuda_driver_kernel_version }} --kernel-source-path=/usr/src/kernels/{{ cuda_driver_kernel_version }}
