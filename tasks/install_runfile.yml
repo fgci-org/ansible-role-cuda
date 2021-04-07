@@ -23,21 +23,74 @@
   set_fact:
     cuda_runfile_sh: "{{ cuda_runfile_url | basename }}"
 
+- name: 'Determine running kernel'
+  command: uname -r
+  register: cuda_driver_kernel_running
+
+- name: 'Determine kernel version'
+  set_fact:
+    cuda_driver_kernel_version: "{{ cuda_driver_kernel_version | default(cuda_driver_kernel_running.stdout, true) }}"
+
+- name: 'Check NVIDIA kernel module'
+  stat:
+    path: /lib/modules/{{ cuda_driver_kernel_version }}/video/nvidia.ko
+  register: cuda_driver_kernel_module
+
+- name: "Check CUDA toolkit path"
+  stat:
+    path: /usr/local/cuda
+  register: cuda_toolkit_path
+
+- name: 'Determine if driver and toolkit are installed'
+  set_fact:
+    cuda_driver_installed: "{{ cuda_driver_kernel_module.stat.exists }}"
+    cuda_toolkit_installed: "{{ cuda_toolkit_path.stat.exists }}"
+
+- name: "Create temporary directory for runfile"
+  file:
+    path: /tmp/cuda_runfile
+    state: directory
+
 - name: "Download runfile"
   get_url:
     url: "{{ cuda_runfile_url }}"
-    dest: "/tmp/{{ cuda_runfile_sh }}"
+    dest: "/tmp/cuda_runfile/{{ cuda_runfile_sh }}"
+  when: (cuda_runfile_toolkit and not cuda_toolkit_installed) or
+        (cuda_runfile_driver and not cuda_driver_installed)
 
-- name: 'Setting runfile arguments'
-  set_fact:
-    runfile_args: "--silent {{ '--driver' if cuda_runfile_driver else '' }} {{ '--toolkit' if cuda_runfile_toolkit else '' }}"
 
-- name: "Run installer"
-  command: bash /tmp/{{ cuda_runfile_sh }} {{ runfile_args }}
-  register: cuda_install_out
+- name: "Run installer for toolkit"
+  command: bash /tmp/cuda_runfile/{{ cuda_runfile_sh }} --silent --toolkit
+  register: cuda_toolkit_install_out
+  when: cuda_runfile_toolkit and not cuda_toolkit_installed
 
-- name: 'Remove installer after successful install'
+- name: 'Install driver'
+  block:
+
+  - name: 'Extract installer for driver installation'
+    command: bash /tmp/cuda_runfile/{{ cuda_runfile_sh }} --extract=/tmp/cuda_runfile
+
+  - name: 'Find NVIDIA runtime'
+    find:
+      paths: /tmp/cuda_runfile
+      patterns: 'NVIDIA*.run'
+    register: cuda_driver_runfile_find
+
+  - name: 'Set NVIDIA runfile path'
+    set_fact:
+      cuda_driver_runfile: "{{ cuda_driver_runfile_find.files[0].path }}"
+
+  - name: 'Print variables of interest'
+    debug:
+      msg: "{{ cuda_driver_runfile }} {{ cuda_driver_kernel_version }} {{ cuda_driver_kernel_running.stdout }}"
+
+  - name: 'Install driver'
+    command: bash {{ cuda_driver_runfile }} --silent --kernel-name={{ cuda_driver_kernel_version }} --kernel-source-path=/usr/src/kernels/{{ cuda_driver_kernel_version }}
+
+  when: cuda_runfile_driver and not cuda_driver_installed
+
+- name: 'Remove installer'
   file:
-    path: /tmp/{{ cuda_runfile_sh }}
+    path: /tmp/cuda_runfile
     state: absent
-  when: cuda_install_out.rc == 0 and cuda_runfile_remove
+  when: and cuda_runfile_remove

@@ -1,7 +1,7 @@
 ---
 # This is an example playbook to execute Ansible tests.
 
-- name: Verify
+- name: Verify CUDA toolkit installation
   hosts: all
   tasks:
   - name: Check that CUDA has been installed
@@ -11,3 +11,13 @@
   - name: Verify that CUDA folder exists
     assert:
       that: cuda_path_check.stat.exists
+- name: Verify NVIDIA driver kernel modules
+  hosts: centos7_cuda_run
+  tasks:
+  - name: Check that NVIDIA kernel module has been installed
+    stat:
+      path: /lib/modules/{{ cuda_driver_kernel_version }}/video/nvidia.ko
+    register: nvidia_module_file
+  - name: Verify that kernel module exists
+    assert:
+      that: nvidia_module_file.stat.exists
