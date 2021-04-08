@@ -15,9 +15,10 @@
   hosts: centos7_cuda_run
   tasks:
   - name: Check that NVIDIA kernel module has been installed
-    stat:
-      path: /lib/modules/{{ cuda_driver_kernel_version }}/video/nvidia.ko
-    register: nvidia_module_file
+    find:
+      path: /lib/modules/{{ cuda_driver_kernel_version }}
+      patterns: nvidia.ko
+    register: nvidia_module_find
   - name: Verify that kernel module exists
     assert:
-      that: nvidia_module_file.stat.exists
+      that: nvidia_module_find.matched > 0
