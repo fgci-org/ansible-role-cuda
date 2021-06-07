@@ -54,13 +54,18 @@
       - "Driver installed: {{ cuda_driver_installed }}"
       - "Toolkit installed: {{ cuda_toolkit_installed }}"
 
-- name: "Create temporary directory for runfile"
-  file:
-    path: /tmp/cuda_runfile
-    state: directory
+- name: Check runfile already exists
+  stat:
+    path: /tmp/cuda_runfile/{{ cuda_runfile_sh }}
+  register: cuda_runtime_file
 
 - name: "Obtain runfile"
   block:
+
+  - name: "Create temporary directory for runfile"
+    file:
+      path: /tmp/cuda_runfile
+      state: directory
 
   - name: "Copy pre-downloaded runfile"
     copy:
@@ -74,8 +79,9 @@
       dest: "/tmp/cuda_runfile/{{ cuda_runfile_sh }}"
     when: cuda_runfile_download
 
-  when: (cuda_runfile_toolkit and not cuda_toolkit_installed) or
-        (cuda_runfile_driver and not cuda_driver_installed)
+  when: not cuda_runtime_file.stat.exists 
+    and ((cuda_runfile_toolkit and not cuda_toolkit_installed)
+    or (cuda_runfile_driver and not cuda_driver_installed))
 
 - name: "Run installer for toolkit"
   command: bash /tmp/cuda_runfile/{{ cuda_runfile_sh }} --silent --toolkit
