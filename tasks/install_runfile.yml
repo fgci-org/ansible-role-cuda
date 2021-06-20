@@ -7,7 +7,7 @@
   when: ansible_pkg_mgr in ["yum", "dnf"]
 
 - name: "Ensure kernel headers are installed (apt)"
-  yum:
+  apt:
     name:
       - linux-headers-generic
       - build-essential
@@ -57,7 +57,29 @@
 - name: Check runfile already exists
   stat:
     path: /tmp/cuda_runfile/{{ cuda_runfile_sh }}
+    checksum_algorithm: md5
   register: cuda_runtime_file
+
+- name: Download checksum file
+  get_url:
+    url: "{{ cuda_runfile_checksum_url }}"
+    dest: /tmp/cuda_checksum.tsv
+  when: cuda_runfile_checksum
+
+- name: Get checksums from file
+  community.general.read_csv:
+      path: /tmp/cuda_checksum.tsv
+      delimiter: " "
+      fieldnames: checksum, file
+      key: file
+  register: checksums
+  when: cuda_runfile_checksum
+
+- name: Get checksums from dict
+  set_fact:
+    cuda_runfile_valid_checksum: "{{checksums[ cuda_runfile_sh ].checksum}}" == cuda_runtime_file.stat.checksum
+  when: cuda_runtime_file.stat.exists
+
 
 - name: "Obtain runfile"
   block:
@@ -79,9 +101,10 @@
       dest: "/tmp/cuda_runfile/{{ cuda_runfile_sh }}"
     when: cuda_runfile_download
 
-  when: not cuda_runtime_file.stat.exists 
+  when: not (cuda_runtime_file.stat.exists and cuda_runfile_valid_checksum)
     and ((cuda_runfile_toolkit and not cuda_toolkit_installed)
     or (cuda_runfile_driver and not cuda_driver_installed))
+
 
 - name: "Run installer for toolkit"
   command: bash /tmp/cuda_runfile/{{ cuda_runfile_sh }} --silent --toolkit
