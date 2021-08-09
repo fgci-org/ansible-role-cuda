@@ -34,7 +34,7 @@
 - name: "Check NVIDIA kernel module"
   find:
     path: "/lib/modules/{{ cuda_driver_kernel_version }}"
-    patterns: nvidia.ko
+    patterns: nvidia.ko.xz
     recurse: true
   register: cuda_driver_kernel_module_find
 
@@ -67,17 +67,17 @@
   when: cuda_runfile_checksum
 
 - name: Get checksums from file
-  community.general.read_csv:
+  read_csv:
       path: /tmp/cuda_checksum.tsv
       delimiter: " "
-      fieldnames: checksum, file
+      fieldnames: checksum,file
       key: file
   register: checksums
   when: cuda_runfile_checksum
 
 - name: Get checksums from dict
   set_fact:
-    cuda_runfile_valid_checksum: "{{checksums[ cuda_runfile_sh ].checksum}}" == cuda_runtime_file.stat.checksum
+    cuda_runfile_valid_checksum: "{{checksums.dict[ cuda_runfile_sh ].checksum}} == cuda_runtime_file.stat.checksum"
   when: cuda_runtime_file.stat.exists
 
 
