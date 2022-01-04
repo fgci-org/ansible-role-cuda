@@ -35,13 +35,23 @@ Role Variables
 Example Playbook
 ----------------
 
-`playbook.yml`:
+`Ubuntu playbook.yml:`
 
     - name: install a cuda with a specific version
       hosts: deep_learning
       vars:
         - cuda_packages:
             - cuda=10.0.130-1
+      roles:
+        - fgci.cuda
+
+`RHEL/CentOS playbook.yml:`
+
+    - name: install a cuda with a specific version
+      hosts: deep_learning
+      vars:
+        - cuda_packages:
+            - cuda-10-2
       roles:
         - fgci.cuda
 
