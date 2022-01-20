@@ -10,7 +10,7 @@ cuda_packages:
 cuda_use_runfile: False
 cuda_runfile_url: "https://developer.download.nvidia.com/compute/cuda/11.2.2/local_installers/cuda_11.2.2_460.32.03_linux.run"
 cuda_runfile_checksum: True
-cuda_runfile_checksum_url: "https://developer.download.nvidia.com/compute/cuda/11.2.2/docs/sidebar/md5sum.txt"
+cuda_runfile_checksum_url: ""
 cuda_runfile_driver: True
 cuda_runfile_toolkit: True
 cuda_runfile_download: True

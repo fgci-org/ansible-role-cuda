@@ -1,9 +1,22 @@
 ---
 
+- name: "Determine running kernel"
+  command: uname -r
+  register: cuda_driver_kernel_running
+
+- name: "Determine kernel version"
+  set_fact:
+    cuda_driver_kernel_version: "{{ cuda_driver_kernel_version | default(cuda_driver_kernel_running.stdout, true) }}"
+
 - name: "Ensure kernel headers are installed (yum)"
   yum:
-    name: "{{ cuda_runfile_packages }}"
+    name:
+      - "kernel-headers-{{ cuda_driver_kernel_version }}*"
+      - "kernel-devel-{{ cuda_driver_kernel_version }}*"
+      - "@Development tools"
+      - which
     state: present
+    update_cache: true
   when: ansible_pkg_mgr in ["yum", "dnf"]
 
 - name: "Ensure kernel headers are installed (apt)"
@@ -23,14 +36,6 @@
   set_fact:
     cuda_runfile_sh: "{{ cuda_runfile_url | basename }}"
 
-- name: "Determine running kernel"
-  command: uname -r
-  register: cuda_driver_kernel_running
-
-- name: "Determine kernel version"
-  set_fact:
-    cuda_driver_kernel_version: "{{ cuda_driver_kernel_version | default(cuda_driver_kernel_running.stdout, true) }}"
-
 - name: "Check NVIDIA kernel module"
   find:
     path: "/lib/modules/{{ cuda_driver_kernel_version }}"
@@ -47,14 +52,16 @@
   set_fact:
     cuda_driver_installed: "{{ cuda_driver_kernel_module_find.matched > 0 }}"
     cuda_toolkit_installed: "{{ cuda_toolkit_path.stat.exists }}"
+    cuda_runfile_checksum_url: "{{ cuda_runfile_checksum_url | default(cuda_runfile_url | regex_replace('local_installers/.*', 'docs/sidebar/md5sum.txt'), true) }}"
 
 - name: "Print information about installed features"
   debug:
     msg:
       - "Driver installed: {{ cuda_driver_installed }}"
       - "Toolkit installed: {{ cuda_toolkit_installed }}"
+      - "Checksum url: {{ cuda_runfile_checksum_url }}"
 
-- name: Check runfile already exists
+- name: Check whether runfile already exists
   stat:
     path: /tmp/cuda_runfile/{{ cuda_runfile_sh }}
     checksum_algorithm: md5

@@ -1,10 +1,4 @@
 ---
 cuda_repo_subfolder: rhel7
 
-cuda_runfile_packages:
-  - kernel-devel
-  - "@Development tools"
-  - which
-
-
 # vim:ft=ansible:
